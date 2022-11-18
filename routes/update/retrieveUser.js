@@ -8,13 +8,14 @@ router.get("/", function (req, res, next) {
         host: "207.148.76.241",
         user: "root",
         passwordSha1: Buffer.from('d6f0ad7752f4a2931bbd0251e64d5bbda8c9ab19', 'hex'),
-        database: "arhrms",
+        database: "stldb",
         waitForConnections: true,
         connectionLimit: 10,
         queueLimit: 0
     });
 
-    pool.query("SELECT opserial, opname FROM operation WHERE isdelete = ?", [0],
+    console.log(req.query.username);
+    pool.query("SELECT userserial_pk AS serial, agentserial_pk as agentSerial, username, password, deviceid AS deviceId FROM useraccount WHERE username = ? AND isdelete = ? LIMIT 1", [req.query.username, 0],
         function (error, results, fields) {
             if (error) throw error;
             if (results.length > 0) {
@@ -29,6 +30,7 @@ router.get("/", function (req, res, next) {
             };
             pool.end();
         });
+
 });
 
 module.exports = router;

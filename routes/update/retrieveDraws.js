@@ -8,13 +8,13 @@ router.get("/", function (req, res, next) {
         host: "207.148.76.241",
         user: "root",
         passwordSha1: Buffer.from('d6f0ad7752f4a2931bbd0251e64d5bbda8c9ab19', 'hex'),
-        database: "arhrms",
+        database: "stldb",
         waitForConnections: true,
         connectionLimit: 10,
         queueLimit: 0
     });
 
-    pool.query("SELECT workserial, firstname, middlename, lastname, extension, farmserial, secserial ,opserial FROM worker WHERE isdelete = ? AND isactive = 1 AND workid <> ''", [0],
+    pool.query("SELECT drawserial_pk AS serial, drawname AS drawName, drawtime AS drawTime, cutoff FROM draw",
         function (error, results, fields) {
             if (error) throw error;
             if (results.length > 0) {
@@ -29,6 +29,7 @@ router.get("/", function (req, res, next) {
             };
             pool.end();
         });
+
 });
 
 module.exports = router;

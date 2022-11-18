@@ -6,15 +6,20 @@ const logger = require('morgan');
 
 const api_version = "/api/v1/uri";
 
-//* 
+//* Router setup
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/update/retrieveusers');
-const workersRouter = require('./routes/update/retrieveworkers');
-const modulesRouter = require('./routes/update/retrievemodule');
-const operationsRouter = require('./routes/update/retrieveoperations');
-const weeksRouter = require('./routes/update/retrieveweeks');
-const statusRouter = require('./routes/update/retrievestatus');
-const monitoringRouter = require('./routes/monitoring/transmitMonitoring');
+const updateUserDeviceRouter = require('./routes/auth/updateUserDevice');
+const authenticateRouter = require('./routes/auth/authenticate');
+
+const pm2DrawRealtimeRouter = require('./routes/realtime/retrieve2pmDraw');
+const pm5DrawRealtimeRouter = require('./routes/realtime/retrieve5pmDraw');
+const pm9DrawRealtimeRouter = require('./routes/realtime/retrieve9pmDraw');
+
+const pnlRealtimeRouter = require('./routes/realtime/retrievePNL');
+
+const userUpdateRouter = require('./routes/update/retrieveUser');
+const drawUpdateRouter = require('./routes/update/retrieveDraws');
+
 const app = express();
 
 //* view engine setup
@@ -28,13 +33,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(api_version + "/", indexRouter);
-app.use(api_version + "/users", usersRouter);
-app.use(api_version + "/workers", workersRouter);
-app.use(api_version + "/modules", modulesRouter);
-app.use(api_version + "/operations", operationsRouter);
-app.use(api_version + "/weeks", weeksRouter);
-app.use(api_version + "/status", statusRouter);
-app.use(api_version + "/monitoring", monitoringRouter);
+app.use(api_version + "/updateUserDevice", updateUserDeviceRouter);
+app.use(api_version + "/login", authenticateRouter);
+
+app.use(api_version + "/2pmdraw", pm2DrawRealtimeRouter);
+app.use(api_version + "/5pmdraw", pm5DrawRealtimeRouter);
+app.use(api_version + "/9pmdraw", pm9DrawRealtimeRouter);
+
+app.use(api_version + "/pnl", pnlRealtimeRouter);
+
+app.use(api_version + "/updateUser", userUpdateRouter);
+app.use(api_version + "/updateDraw", drawUpdateRouter);
 
 //* catch 404 and forward to error handler
 app.use(function (req, res, next) {
