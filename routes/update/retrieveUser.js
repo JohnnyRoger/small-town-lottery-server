@@ -2,16 +2,16 @@ const express = require('express');
 const router = express.Router();
 const chalk = require('chalk');
 const mysql = require('mysql2');
-
+const config = require('../../config.json');
 router.get("/", function (req, res, next) {
     const pool = mysql.createPool({
-        host: "207.148.76.241",
-        user: "root",
-        passwordSha1: Buffer.from('d6f0ad7752f4a2931bbd0251e64d5bbda8c9ab19', 'hex'),
-        database: "stldb",
-        waitForConnections: true,
-        connectionLimit: 10,
-        queueLimit: 0
+        host: config.database.hostname,
+        user: config.database.username,
+        passwordSha1: Buffer.from(config.database.password, 'hex'),
+        database: config.database.database,
+        waitForConnections: config.database.waitForConnections,
+        connectionLimit: config.database.connectionLimit,
+        queueLimit: config.database.queueLimit
     });
 
     console.log(req.query.username);
@@ -26,7 +26,7 @@ router.get("/", function (req, res, next) {
             } else {
                 res.status(201).send();
                 res.end;
-                console.log("Query Status:", chalk.yellowBright("(Success) Returns: " + results.length + " data."));
+                console.log("Query Status:", chalk.yellowBright("(Failed) Returns empty dataset."));
             };
             pool.end();
         });

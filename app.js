@@ -15,8 +15,11 @@ const pm2DrawRealtimeRouter = require('./routes/realtime/retrieve2pmDraw');
 const pm5DrawRealtimeRouter = require('./routes/realtime/retrieve5pmDraw');
 const pm9DrawRealtimeRouter = require('./routes/realtime/retrieve9pmDraw');
 
-const pnlRealtimeRouter = require('./routes/realtime/retrievePNL');
+const headerBetRouter = require('./routes/bet/transmitBetHeader');
+const detailBetRouter = require('./routes/bet/transmitBetDetails');
+const voidBetRouter = require('./routes/bet/voidBetHeader');
 
+const pnlRealtimeRouter = require('./routes/realtime/retrievePNL');
 const userUpdateRouter = require('./routes/update/retrieveUser');
 const drawUpdateRouter = require('./routes/update/retrieveDraws');
 
@@ -40,8 +43,11 @@ app.use(api_version + "/2pmdraw", pm2DrawRealtimeRouter);
 app.use(api_version + "/5pmdraw", pm5DrawRealtimeRouter);
 app.use(api_version + "/9pmdraw", pm9DrawRealtimeRouter);
 
-app.use(api_version + "/pnl", pnlRealtimeRouter);
+app.use(api_version + "/transmitheader", headerBetRouter);
+app.use(api_version + "/transmitdetails", detailBetRouter);
+app.use(api_version + "/voidbet", voidBetRouter);
 
+app.use(api_version + "/pnl", pnlRealtimeRouter);
 app.use(api_version + "/updateUser", userUpdateRouter);
 app.use(api_version + "/updateDraw", drawUpdateRouter);
 

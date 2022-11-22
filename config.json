@@ -1,0 +1,11 @@
+{
+    "database": {
+        "hostname": "207.148.76.241",
+        "username": "root",
+        "password": "d6f0ad7752f4a2931bbd0251e64d5bbda8c9ab19",
+        "database": "stldb",
+        "waitForConnections": true,
+        "connectionLimit": 10,
+        "queueLimit": 0
+    }
+}

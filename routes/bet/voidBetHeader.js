@@ -3,7 +3,7 @@ const router = express.Router();
 const chalk = require('chalk');
 const mysql = require('mysql2');
 const config = require('../../config.json');
-router.get("/", function (req, res, next) {
+router.patch("/", function (req, res, next) {
     const pool = mysql.createPool({
         host: config.database.hostname,
         user: config.database.username,
@@ -14,22 +14,21 @@ router.get("/", function (req, res, next) {
         queueLimit: config.database.queueLimit
     });
 
-    pool.query("SELECT drawserial_pk AS serial, drawname AS drawName, drawtime AS drawTime, cutoff, resumebet as resume FROM draw",
-        function (error, results, fields) {
+    pool.query("UPDATE betheader SET isvoid = ? WHERE betheaderserial_pk = ?",
+        [req.query.isvoid, req.query.headerserial],
+        function (error, results) {
             if (error) throw error;
-            if (results.length > 0) {
-                const result = JSON.stringify(results);
-                res.send(result);
+            if (results.affectedRows != 0) {
+                res.status(200).send();
                 res.end;
-                console.log("Query Status:", chalk.greenBright("(Success) Returns: " + results.length + " data."));
+                console.log("Query Status:", chalk.greenBright("(Success) Updated: " + results.affectedRows + " row."));
             } else {
                 res.status(201).send();
                 res.end;
-                console.log("Query Status:", chalk.yellowBright("(Failed) Returns empty dataset."));
+                console.log("Query Status:", chalk.redBright("(Failed) Update failure."));
             };
             pool.end();
         });
-
 });
 
 module.exports = router;
