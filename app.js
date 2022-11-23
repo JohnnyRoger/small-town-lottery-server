@@ -9,6 +9,7 @@ const api_version = "/api/v1/uri";
 //* Router setup
 const indexRouter = require('./routes/index');
 const updateUserDeviceRouter = require('./routes/auth/updateUserDevice');
+const updateUserPasswordRouter = require('./routes/auth/updateUserPassword');
 const authenticateRouter = require('./routes/auth/authenticate');
 
 const pm2DrawRealtimeRouter = require('./routes/realtime/retrieve2pmDraw');
@@ -37,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(api_version + "/", indexRouter);
 app.use(api_version + "/updateUserDevice", updateUserDeviceRouter);
+app.use(api_version + "/updatePassword", updateUserPasswordRouter);
 app.use(api_version + "/login", authenticateRouter);
 
 app.use(api_version + "/2pmdraw", pm2DrawRealtimeRouter);
