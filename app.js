@@ -12,6 +12,7 @@ const updateUserDeviceRouter = require('./routes/auth/updateUserDevice');
 const updateUserPasswordRouter = require('./routes/auth/updateUserPassword');
 const authenticateRouter = require('./routes/auth/authenticate');
 
+const pnlRealtimeRouter = require('./routes/realtime/retrievePNL');
 const pm2DrawRealtimeRouter = require('./routes/realtime/retrieve2pmDraw');
 const pm5DrawRealtimeRouter = require('./routes/realtime/retrieve5pmDraw');
 const pm9DrawRealtimeRouter = require('./routes/realtime/retrieve9pmDraw');
@@ -20,9 +21,9 @@ const headerBetRouter = require('./routes/bet/transmitBetHeader');
 const detailBetRouter = require('./routes/bet/transmitBetDetails');
 const voidBetRouter = require('./routes/bet/voidBetHeader');
 
-const pnlRealtimeRouter = require('./routes/realtime/retrievePNL');
 const userUpdateRouter = require('./routes/update/retrieveUser');
 const drawUpdateRouter = require('./routes/update/retrieveDraws');
+const resultUpdateRouter = require('./routes/update/retrieveResult');
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use(api_version + "/updateUserDevice", updateUserDeviceRouter);
 app.use(api_version + "/updatePassword", updateUserPasswordRouter);
 app.use(api_version + "/login", authenticateRouter);
 
+app.use(api_version + "/pnl", pnlRealtimeRouter);
 app.use(api_version + "/2pmdraw", pm2DrawRealtimeRouter);
 app.use(api_version + "/5pmdraw", pm5DrawRealtimeRouter);
 app.use(api_version + "/9pmdraw", pm9DrawRealtimeRouter);
@@ -49,9 +51,9 @@ app.use(api_version + "/transmitheader", headerBetRouter);
 app.use(api_version + "/transmitdetails", detailBetRouter);
 app.use(api_version + "/voidbet", voidBetRouter);
 
-app.use(api_version + "/pnl", pnlRealtimeRouter);
 app.use(api_version + "/updateUser", userUpdateRouter);
 app.use(api_version + "/updateDraw", drawUpdateRouter);
+app.use(api_version + "/updateResult", resultUpdateRouter);
 
 //* catch 404 and forward to error handler
 app.use(function (req, res, next) {

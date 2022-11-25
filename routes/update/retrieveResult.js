@@ -14,11 +14,7 @@ router.get("/", function (req, res, next) {
         queueLimit: config.database.queueLimit
     });
 
-    console.log(req.query.username);
-    pool.query("SELECT t1.userserial_pk AS serial, t1.agentserial_pk as agentSerial, t1.username, t1.password, t1.deviceid AS deviceId, t2.loccode as location" +
-        " FROM useraccount t1" +
-        " INNER JOIN location t2 ON t1.locserial_pk = t2.locserial_pk" +
-        " WHERE t1.username = ? AND t1.isdelete = ? LIMIT 1", [req.query.username, 0],
+    pool.query("SELECT resultserial_pk AS serial, drawserial_pk AS drawSerial, drawdate as drawDate, winningno AS winningNumber, datecreated AS dateCreated FROM result WHERE drawdate = CURRENT_DATE",
         function (error, results, fields) {
             if (error) throw error;
             if (results.length > 0) {
