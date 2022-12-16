@@ -14,7 +14,7 @@ router.post("/", function (req, res, next) {
         queueLimit: config.database.queueLimit
     });
 
-    pool.query("SELECT userserial_pk FROM useraccount WHERE username = ? AND password = ? AND deviceid = ? AND isdelete = ? LIMIT 1", [req.body.username, req.body.password, req.body.deviceid, 0],
+    pool.query("SELECT userserial_pk FROM useraccount WHERE username = ? AND password = ? AND deviceid = ? AND isactive = ? LIMIT 1", [req.body.username, req.body.password, req.body.deviceid, 1],
         function (error, results, fields) {
             if (error) throw error;
             if (results.length > 0) {

@@ -2,6 +2,7 @@ const app = require('../app');
 const debug = require('debug')('Node2.0:server');
 const http = require('http');
 const chalk = require('chalk');
+const scraper = require('../auto/resultScraper');
 
 //* Get port from environment and store in Express
 const port = normalizePort(process.env.PORT || '3000');
