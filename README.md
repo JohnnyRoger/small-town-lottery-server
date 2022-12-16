@@ -1,2 +1,2 @@
 # small-town-lottery-server
-Node Server for STL.
+Node Server for STL
